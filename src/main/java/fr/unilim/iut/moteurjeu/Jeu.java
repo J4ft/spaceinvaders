@@ -1,4 +1,4 @@
-package moteurJeu;
+package fr.unilim.iut.moteurjeu;
 
 /**
  * represente un jeu un jeu est caracterise par la methode evoluer a redefinir

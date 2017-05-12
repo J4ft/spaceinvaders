@@ -1,4 +1,4 @@
-package moteurJeu;
+package fr.unilim.iut.moteurjeu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
