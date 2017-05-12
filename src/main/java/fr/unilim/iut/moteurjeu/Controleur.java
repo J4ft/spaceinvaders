@@ -15,6 +15,7 @@ public class Controleur implements KeyListener {
 	 * commande en cours
 	 */
 	private Commande commandeEnCours;
+	
 	/**
 	 * commande a retourner la difference avec la commandeencours vient du fait
 	 * qu'on veut memoriser une touche appuyee
