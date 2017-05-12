@@ -1,9 +1,11 @@
 package fr.unilim.iut.spaceinvaders;
 
+import fr.unilim.iut.moteurjeu.Commande;
+import fr.unilim.iut.moteurjeu.Jeu;
 import fr.unilim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unilim.iut.spaceinvaders.utils.HorsEspaceJeuException;
 
-public class SpaceInvaders {
+public class SpaceInvaders implements Jeu {
 
 	private static final char MARQUE_VIDE = '.';
 	private static final char MARQUE_VAISSEAU = 'V';
@@ -14,6 +16,10 @@ public class SpaceInvaders {
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
 		this.hauteur = hauteur;
+	}
+
+	public void initialiser() {
+		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position(Constante.VAISSEAU.longueur() / 2, hauteur -1));
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
@@ -78,5 +84,20 @@ public class SpaceInvaders {
 		if (vaisseau.abscisseLaPlusAGauche() > 0)
 			vaisseau.seDeplacerVersLaGauche();
 	}
+	
+	public Vaisseau getVaisseau() {
+		return this.vaisseau;
+	}
+	
+	public void evoluer(Commande commandeUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean etreFini() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
