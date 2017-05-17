@@ -17,7 +17,7 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void initialiser() {
-		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position(Constante.VAISSEAU.longueur() / 2, hauteur -1));
+		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1));
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
