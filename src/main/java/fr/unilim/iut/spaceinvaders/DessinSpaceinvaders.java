@@ -24,8 +24,6 @@ public class DessinSpaceinvaders implements DessinJeu {
 		g.fillRect(0, 0, Constante.ECRAN.longueur(), Constante.ECRAN.hauteur());
 		
 		g.setColor(Color.BLUE);
-		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());
-		
+		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());	
 	}
-
 }
