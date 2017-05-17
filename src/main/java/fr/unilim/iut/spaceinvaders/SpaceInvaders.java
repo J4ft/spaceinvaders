@@ -90,8 +90,13 @@ public class SpaceInvaders implements Jeu {
 	}
 	
 	public void evoluer(Commande commandeUser) {
-		// TODO Auto-generated method stub
+		if(commandeUser.gauche) {
+			deplacerVaisseauVersLaGauche();
+		}
 		
+		if(commandeUser.droite) {
+			deplacerVaisseauVersLaDroite();
+		}
 	}
 
 	public boolean etreFini() {

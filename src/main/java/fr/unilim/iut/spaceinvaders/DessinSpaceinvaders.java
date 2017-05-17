@@ -20,6 +20,9 @@ public class DessinSpaceinvaders implements DessinJeu {
 		int positionVaisseauX = spaceInvaders.getVaisseau().abscisse();
 		int positionVaisseauY = spaceInvaders.getVaisseau().ordonnee() - Constante.VAISSEAU.hauteur();
 		
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, Constante.ECRAN.longueur(), Constante.ECRAN.hauteur());
+		
 		g.setColor(Color.BLUE);
 		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());
 		
