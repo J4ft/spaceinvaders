@@ -10,6 +10,7 @@ public class SpaceInvaders implements Jeu {
 	int longueur;
 	int hauteur;
 	Vaisseau vaisseau;
+	Missile missile;
 
 	public SpaceInvaders(int longueur, int hauteur) {
 		this.longueur = longueur;
@@ -36,9 +37,15 @@ public class SpaceInvaders implements Jeu {
 		char marque;
 		if (aUnVaisseauQuiOccupeLaPosition(x, y))
 			marque = Constante.MARQUE_VAISSEAU;
+		else if (aUnMissileQuiOccupeLaPosition(x, y))
+			marque = Constante.MARQUE_MISSILE;
 		else
 			marque = Constante.MARQUE_VIDE;
 		return marque;
+	}
+
+	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
+		return aUnMissile() && missile.occupeLaPosition(x, y);
 	}
 
 	private boolean aUnVaisseauQuiOccupeLaPosition(int x, int y) {
@@ -47,6 +54,10 @@ public class SpaceInvaders implements Jeu {
 
 	private boolean aUnVaisseau() {
 		return vaisseau != null;
+	}
+	
+	private boolean aUnMissile() {
+		return missile != null;
 	}
 
 	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
@@ -108,6 +119,11 @@ public class SpaceInvaders implements Jeu {
 	public boolean etreFini() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void tirerUnMissile(Dimension dimension, int vitesse) {
+		this.missile = this.vaisseau.tirerUnMissile(dimension, vitesse);
+		
 	}
 
 

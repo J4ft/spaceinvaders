@@ -6,10 +6,10 @@ public abstract class Sprite {
 	protected Dimension dimension;
 	protected int vitesse;
 
-	public Sprite(Position origine, Dimension dimension, int vitesse) {
+	public Sprite(Dimension dimension, Position origine, int vitesse) {
 		super();
-		this.origine = origine;
 		this.dimension = dimension;
+		this.origine = origine;
 		this.vitesse = vitesse;
 	}
 

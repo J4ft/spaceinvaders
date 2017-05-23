@@ -95,6 +95,22 @@ public class SpaceInvadersTest {
 	}
 	
 	@Test
+	public void test_UnNouveauVaisseauPositionneDansEspaceJeuMaisAvecDimensionTropGrande_DoitLeverUneExceptionDeDebordement() {
+		
+		try {
+			spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(9,2),new Position(7,9), 1);
+			fail("Dépassement du vaisseau à droite en raison de sa longueur trop importante : devrait déclencher une exception DebordementEspaceJeuException");
+		} catch (final DebordementEspaceJeuException e) {
+		}
+		
+		try {
+			spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,4),new Position(7,1), 1);
+			fail("Dépassement du vaisseau vers le haut en raison de sa hauteur trop importante : devrait déclencher une exception DebordementEspaceJeuException");
+		} catch (final DebordementEspaceJeuException e) {
+		}		
+	}
+
+	@Test
 	public void test_VaisseauAvecDimensionImmobile_DeplacerVaisseauVersLaDroite() {
 		
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,2),new Position(12,9), 1);
@@ -241,19 +257,23 @@ public class SpaceInvadersTest {
        "............VVV\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
     }
 	
+	
 	@Test
-	public void test_UnNouveauVaisseauPositionneDansEspaceJeuMaisAvecDimensionTropGrande_DoitLeverUneExceptionDeDebordement() {
-		
-		try {
-			spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(9,2),new Position(7,9), 1);
-			fail("Dépassement du vaisseau à droite en raison de sa longueur trop importante : devrait déclencher une exception DebordementEspaceJeuException");
-		} catch (final DebordementEspaceJeuException e) {
-		}
-			
-		try {
-			spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3,4),new Position(7,1), 1);
-			fail("Dépassement du vaisseau vers le haut en raison de sa hauteur trop importante : devrait déclencher une exception DebordementEspaceJeuException");
-		} catch (final DebordementEspaceJeuException e) {
-		}		
-	}
+    public void test_MissileBienTireDepuisVaisseau_VaisseauLongueurImpaireMissileLongueurImpaire() {
+
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
+	   spaceinvaders.tirerUnMissile(new Dimension(3,2),2);
+	   System.out.println(spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	   assertEquals("" + 
+	   "...............\n" + 
+	   "...............\n" +
+	   "...............\n" + 
+	   "...............\n" + 
+	   "...............\n" + 
+	   "...............\n" + 
+	   ".......MMM.....\n" + 
+	   ".......MMM.....\n" + 
+	   ".....VVVVVVV...\n" + 
+	   ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+   }
 }
