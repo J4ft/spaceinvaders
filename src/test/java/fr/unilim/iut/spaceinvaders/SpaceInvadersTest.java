@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import fr.unilim.iut.spaceinvaders.utils.DebordementEspaceJeuException;
 import fr.unilim.iut.spaceinvaders.utils.HorsEspaceJeuException;
+import fr.unilim.iut.spaceinvaders.utils.MissileException;
 
 public class SpaceInvadersTest {
 	
@@ -263,7 +264,6 @@ public class SpaceInvadersTest {
 
 	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 2);
 	   spaceinvaders.tirerUnMissile(new Dimension(3,2),2);
-	   System.out.println(spaceinvaders.recupererEspaceJeuDansChaineASCII());
 	   assertEquals("" + 
 	   "...............\n" + 
 	   "...............\n" +
@@ -276,4 +276,10 @@ public class SpaceInvadersTest {
 	   ".....VVVVVVV...\n" + 
 	   ".....VVVVVVV...\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
    }
+	
+	@Test(expected = MissileException.class)
+	public void test_PasAssezDePlacePourTirerUnMissile_UneExceptionEstLevee() throws Exception { 
+	   spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7,2),new Position(5,9), 1);
+	   spaceinvaders.tirerUnMissile(new Dimension(7,9),1);
+	}
 }
