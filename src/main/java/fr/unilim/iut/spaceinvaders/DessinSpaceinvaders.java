@@ -24,6 +24,15 @@ public class DessinSpaceinvaders implements DessinJeu {
 		g.fillRect(0, 0, Constante.ECRAN.longueur(), Constante.ECRAN.hauteur());
 		
 		g.setColor(Color.BLUE);
-		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());	
+		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());		
+		
+		
+		if(spaceInvaders.aUnMissile()) {
+			int positionMissileX = spaceInvaders.getMissile().abscisse();
+			int positionMissileY = spaceInvaders.getMissile().ordonnee() - Constante.MISSILE.hauteur();
+			
+			g.setColor(Color.PINK);
+			g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(), Constante.MISSILE.hauteur());
+		}
 	}
 }

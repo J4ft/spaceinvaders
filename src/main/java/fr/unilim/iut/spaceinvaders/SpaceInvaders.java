@@ -57,7 +57,7 @@ public class SpaceInvaders implements Jeu {
 		return vaisseau != null;
 	}
 	
-	private boolean aUnMissile() {
+	public boolean aUnMissile() {
 		return missile != null;
 	}
 
@@ -115,6 +115,10 @@ public class SpaceInvaders implements Jeu {
 		if(commandeUser.droite) {
 			deplacerVaisseauVersLaDroite();
 		}
+		
+		if(commandeUser.espace && !aUnMissile()) {
+			tirerUnMissile(Constante.MISSILE, Constante.MISSILE_VITESSE);
+		}
 	}
 
 	public boolean etreFini() {
@@ -128,6 +132,10 @@ public class SpaceInvaders implements Jeu {
 		
 		this.missile = this.vaisseau.tirerUnMissile(dimension, vitesse);
 		
+	}
+
+	public Sprite getMissile() {
+		return this.missile;
 	}
 
 
