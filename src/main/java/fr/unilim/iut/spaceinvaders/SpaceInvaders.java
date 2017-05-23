@@ -17,7 +17,8 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void initialiser() {
-		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1), 1);
+		positionnerUnNouveauVaisseau(Constante.VAISSEAU, 
+									 new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1), Constante.VAISSEAU_VITESSE);
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
@@ -77,7 +78,7 @@ public class SpaceInvaders implements Jeu {
 		if (vaisseau.abscisseLaPlusADroite() < (longueur - 1)) {
 			vaisseau.seDeplacerVersLaDroite();
 			if (!estDansEspaceJeu(vaisseau.abscisseLaPlusADroite(), vaisseau.ordonneeLaPlusHaute())) {
-				vaisseau.positionner(longueur - vaisseau.longueur(), vaisseau.ordonneeLaPlusHaute() + 1 );
+				vaisseau.positionner(longueur - vaisseau.longueur(), vaisseau.ordonnee());
 			}
 		}
 	}
@@ -86,7 +87,7 @@ public class SpaceInvaders implements Jeu {
 		if (0 < vaisseau.abscisseLaPlusAGauche())
 			vaisseau.seDeplacerVersLaGauche();
 		if (!estDansEspaceJeu(vaisseau.abscisseLaPlusAGauche(), vaisseau.ordonneeLaPlusHaute())) {
-			vaisseau.positionner(0, vaisseau.ordonneeLaPlusHaute() + 1);
+			vaisseau.positionner(0, vaisseau.ordonnee());
 		}
 	}
 
