@@ -17,7 +17,7 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void initialiser() {
-		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1));
+		positionnerUnNouveauVaisseau(Constante.VAISSEAU, new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1), 1);
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
@@ -48,7 +48,7 @@ public class SpaceInvaders implements Jeu {
 		return vaisseau != null;
 	}
 
-	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position) {
+	public void positionnerUnNouveauVaisseau(Dimension dimension, Position position, int vitesse) {
 		int x = position.abscisse();
 		int y = position.ordonnee();
 		
@@ -65,7 +65,7 @@ public class SpaceInvaders implements Jeu {
 			throw new DebordementEspaceJeuException(
 					"Le vaisseau déborde de l'espace jeu vers le bas à cause de sa hauteur");
 
-		vaisseau = new Vaisseau(longueurVaisseau, hauteurVaisseau);
+		vaisseau = new Vaisseau(dimension, position, vitesse);
 		vaisseau.positionner(x, y);
 	}
 
@@ -74,19 +74,26 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void deplacerVaisseauVersLaDroite() {
-		if (vaisseau.abscisseLaPlusADroite() < (longueur - 1))
+		if (vaisseau.abscisseLaPlusADroite() < (longueur - 1)) {
 			vaisseau.seDeplacerVersLaDroite();
-	}
-
-	public void deplacerVaisseauVersLaGauche() {
-		if (vaisseau.abscisseLaPlusAGauche() > 0)
-			vaisseau.seDeplacerVersLaGauche();
+			if (!estDansEspaceJeu(vaisseau.abscisseLaPlusADroite(), vaisseau.ordonneeLaPlusHaute())) {
+				vaisseau.positionner(longueur - vaisseau.longueur(), vaisseau.ordonneeLaPlusHaute() + 1 );
+			}
+		}
 	}
 	
+	public void deplacerVaisseauVersLaGauche() {
+		if (0 < vaisseau.abscisseLaPlusAGauche())
+			vaisseau.seDeplacerVersLaGauche();
+		if (!estDansEspaceJeu(vaisseau.abscisseLaPlusAGauche(), vaisseau.ordonneeLaPlusHaute())) {
+			vaisseau.positionner(0, vaisseau.ordonneeLaPlusHaute() + 1);
+		}
+	}
+
 	public Vaisseau getVaisseau() {
 		return this.vaisseau;
 	}
-	
+
 	public void evoluer(Commande commandeUser) {
 		if(commandeUser.gauche) {
 			deplacerVaisseauVersLaGauche();

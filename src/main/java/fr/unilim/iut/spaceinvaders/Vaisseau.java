@@ -3,17 +3,19 @@ package fr.unilim.iut.spaceinvaders;
 public class Vaisseau {
 	Position origine;
 	Dimension dimension;
+	int vitesse;
 
-	public Vaisseau(int longueur, int hauteur) {
-		this.origine = new Position(0, 0);
-		this.dimension = new Dimension(longueur, hauteur);
-	}
 
-	public Vaisseau(Dimension dimension, Position positionOrigine) {
+	public Vaisseau(Dimension dimension, Position positionOrigine, int vitesse) {
 	    this.dimension = dimension;
 	    this.origine = positionOrigine;
+	    this.vitesse = vitesse;
     }
 	
+	public Vaisseau(int longueur, int hauteur) {
+		this(new Dimension(longueur, hauteur), new Position(0, 0), 1);
+	}
+
 	public void positionner(int x, int y) {
 		origine.changerAbscisse(x);
 		origine.changerOrdonnee(y);
@@ -27,11 +29,11 @@ public class Vaisseau {
 		return (ordonneeLaPlusHaute() <= y) && (y <= ordonneeLaPlusBasse());
 	}
 
-	private int ordonneeLaPlusBasse() {
+	public int ordonneeLaPlusBasse() {
 		return this.ordonnee();
 	}
 
-	private int ordonneeLaPlusHaute() {
+	public int ordonneeLaPlusHaute() {
 		return ordonneeLaPlusBasse() - this.dimension.hauteur() + 1;
 	}
 
@@ -48,11 +50,11 @@ public class Vaisseau {
 	}
 
 	public void seDeplacerVersLaDroite() {
-		origine.changerAbscisse(this.abscisse() + 1);
+		origine.changerAbscisse(this.abscisse() + this.vitesse);
 	}
 
 	public void seDeplacerVersLaGauche() {
-		origine.changerAbscisse(this.abscisse() - 1);
+		origine.changerAbscisse(this.abscisse() - this.vitesse);
 	}
 
 	public int abscisse() {
@@ -61,6 +63,14 @@ public class Vaisseau {
 	
 	public int ordonnee() {
 		return this.origine.ordonnee();
+	}
+	
+	public int longueur() {
+		return this.dimension.longueur();
+	}
+	
+	public int hauteur() {
+		return this.dimension.hauteur();
 	}
 
 }
