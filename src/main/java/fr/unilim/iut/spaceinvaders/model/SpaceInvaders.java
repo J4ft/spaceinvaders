@@ -1,4 +1,4 @@
-package fr.unilim.iut.spaceinvaders;
+package fr.unilim.iut.spaceinvaders.model;
 
 import fr.unilim.iut.moteurjeu.Commande;
 import fr.unilim.iut.moteurjeu.Jeu;

@@ -1,4 +1,4 @@
-package fr.unilim.iut.spaceinvaders;
+package fr.unilim.iut.spaceinvaders.model;
 
 public class Constante {
 	public static final Dimension ECRAN = new Dimension(250, 400);
