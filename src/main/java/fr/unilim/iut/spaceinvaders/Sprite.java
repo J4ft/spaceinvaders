@@ -49,13 +49,13 @@ public abstract class Sprite {
 	public int abscisseLaPlusAGauche() {
 		return this.abscisse();
 	}
-
-	public void seDeplacerVersLaDroite() {
-		origine.changerAbscisse(this.abscisse() + this.vitesse);
+	
+	public void deplacerVerticalementVers(Direction direction) {
+		this.origine.changerOrdonnee(this.origine.ordonnee() + direction.valeur() * vitesse);
 	}
-
-	public void seDeplacerVersLaGauche() {
-		origine.changerAbscisse(this.abscisse() - this.vitesse);
+	
+	public void deplacerHorizontalementVers(Direction direction) {
+		this.origine.changerAbscisse(this.origine.abscisse() + direction.valeur() * vitesse);
 	}
 
 	public int abscisse() {
