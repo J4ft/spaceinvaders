@@ -432,4 +432,36 @@ public class SpaceInvadersTest {
 		"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
 	}
 	
+	@Test
+	public void test_MissileEntreEnCollisionAvecEnvahisseur_finDePartie() {
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3, 2), new Position(7, 9), 1);
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(2, 1), 1);
+		spaceinvaders.tirerUnMissile(new Dimension(1, 1), 1);
+		
+		// simulation boucle de jeu
+		for(int i = 0; i < 6; i++) {
+			spaceinvaders.deplacerEnvahisseur();
+			spaceinvaders.deplacerMissile();
+		}
+		
+		assertEquals(true, spaceinvaders.etreFini());
+		
+	}
+	
+	@Test
+	public void test_PasCollisionEntreMissileEtEnvahisseur_pasFinDePartie() {
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3, 2), new Position(7, 9), 1);
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(7, 1), 1);
+		spaceinvaders.tirerUnMissile(new Dimension(1, 1), 1);
+		
+		// simulation boucle de jeu
+		for(int i = 0; i < 6; i++) {
+			spaceinvaders.deplacerEnvahisseur();
+			spaceinvaders.deplacerMissile();
+		}
+		
+		assertEquals(false, spaceinvaders.etreFini());
+		
+	}
+	
 }

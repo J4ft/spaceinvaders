@@ -134,8 +134,7 @@ public class SpaceInvaders implements Jeu {
 	}
 	
 	public boolean etreFini() {
-		// TODO Auto-generated method stub
-		return false;
+		return collisionMissileEnvahisseur();
 	}
 
 	public void tirerUnMissile(Dimension dimension, int vitesse) {
