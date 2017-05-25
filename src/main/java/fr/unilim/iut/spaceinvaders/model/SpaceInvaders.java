@@ -105,22 +105,34 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void evoluer(Commande commandeUser) {
-		if(commandeUser.gauche)
+		if (commandeUser.gauche)
 			deplacerVaisseauVersLaGauche();
-		
-		if(commandeUser.droite)
+
+		if (commandeUser.droite)
 			deplacerVaisseauVersLaDroite();
-		
-		if(commandeUser.espace && !aUnMissile())
+
+		if (commandeUser.espace && !aUnMissile())
 			tirerUnMissile(Constante.MISSILE, Constante.MISSILE_VITESSE);
-		
-		if(aUnMissile())
+
+		if (aUnMissile())
 			deplacerMissile();
-		
-		if(aUnEnvahisseur())
+
+		if (aUnEnvahisseur())
 			deplacerEnvahisseur();
+
+		if (collisionMissileEnvahisseur())
+				System.out.println("touché");
+
 	}
 
+	public boolean collisionMissileEnvahisseur() {
+		if (aUnMissile() && aUnEnvahisseur()) {
+			if (Collision.detecterCollision(envahisseur, missile))
+				return true;
+		}
+		return false;
+	}
+	
 	public boolean etreFini() {
 		// TODO Auto-generated method stub
 		return false;
