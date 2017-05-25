@@ -74,4 +74,16 @@ public abstract class Sprite {
 		return this.dimension.hauteur();
 	}
 
+	public void changerDimension(Dimension dimension) {
+		this.dimension = dimension;
+	}
+	
+	public void changerPosition(Position origine) {
+		this.origine = origine;
+	}
+	
+	public void changerVitesse(int vitesse) {
+		this.vitesse = vitesse;
+	}
+
 }

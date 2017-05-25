@@ -8,8 +8,12 @@ public class Constante {
 	
 	public static final Dimension MISSILE = new Dimension(3, 6);
 	public static final int MISSILE_VITESSE = 14;
+	
+	public static final Dimension ENVAHISSEUR = new Dimension(3, 6);
+	public static final int ENVAHISSEUR_VITESSE = 14;
 
 	public static final char MARQUE_VIDE = '.';
 	public static final char MARQUE_VAISSEAU = 'V';
 	public static final char MARQUE_MISSILE = 'M';
+	public static final char MARQUE_ENVAHISSEUR = 'E';
 }

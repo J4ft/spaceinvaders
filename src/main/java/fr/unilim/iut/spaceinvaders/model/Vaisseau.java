@@ -11,6 +11,10 @@ public class Vaisseau extends Sprite {
 		this(new Dimension(longueur, hauteur), new Position(0, 0), 1);
 	}
 
+	public Vaisseau() {
+		super();
+	}
+
 	public Missile tirerUnMissile(Dimension dimensionMissile, int vitesseMissile) {
 		// TODO vérifier lancement des exceptions
 		if (dimensionMissile.hauteur() > this.dimension.hauteur() ||  dimensionMissile.longueur() > this.dimension.longueur()) {
