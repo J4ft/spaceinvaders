@@ -10,7 +10,7 @@ public class Constante {
 	public static final int MISSILE_VITESSE = 14;
 	
 	public static final Dimension ENVAHISSEUR = new Dimension(27, 15);
-	public static final int ENVAHISSEUR_VITESSE = 14;
+	public static final int ENVAHISSEUR_VITESSE = 5;
 
 	public static final char MARQUE_VIDE = '.';
 	public static final char MARQUE_VAISSEAU = 'V';

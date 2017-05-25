@@ -28,7 +28,7 @@ public class SpaceInvaders implements Jeu {
 		positionnerUnNouvelEnvahisseur(Constante.ENVAHISSEUR,
 				new Position((Constante.ECRAN.longueur() / 2) - (Constante.ENVAHISSEUR.longueur() / 2),
 						Constante.ENVAHISSEUR.hauteur() + 1),
-				Constante.VAISSEAU_VITESSE);
+				Constante.ENVAHISSEUR_VITESSE);
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
