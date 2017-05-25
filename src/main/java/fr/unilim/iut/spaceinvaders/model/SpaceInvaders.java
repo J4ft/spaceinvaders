@@ -20,8 +20,14 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void initialiser() {
-		positionnerUnNouveauVaisseau(Constante.VAISSEAU, 
-									 new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur -1), Constante.VAISSEAU_VITESSE);
+		positionnerUnNouveauVaisseau(Constante.VAISSEAU,
+				new Position((Constante.ECRAN.longueur() / 2) - (Constante.VAISSEAU.longueur() / 2), hauteur - 1),
+				Constante.VAISSEAU_VITESSE);
+
+		positionnerUnNouvelEnvahisseur(Constante.ENVAHISSEUR,
+				new Position((Constante.ECRAN.longueur() / 2) - (Constante.ENVAHISSEUR.longueur() / 2),
+						Constante.ENVAHISSEUR.hauteur() + 1),
+				Constante.VAISSEAU_VITESSE);
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
@@ -163,5 +169,9 @@ public class SpaceInvaders implements Jeu {
 		sprite.changerVitesse(vitesse);
 		sprite.positionner(x, y);
 		return sprite;
+	}
+
+	public Envahisseur getEnvahisseur() {
+		return this.envahisseur;
 	}
 }
