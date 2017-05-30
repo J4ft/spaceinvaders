@@ -3,6 +3,7 @@ package fr.unilim.iut.spaceinvaders.model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import fr.unilim.iut.moteurjeu.DessinJeu;
 
@@ -23,7 +24,7 @@ public class DessinSpaceinvaders implements DessinJeu {
 		int positionVaisseauX = spaceInvaders.getVaisseau().abscisse();
 		int positionVaisseauY = spaceInvaders.getVaisseau().ordonnee() - Constante.VAISSEAU.hauteur();
 		
-		g.setColor(Color.BLUE);
+		g.setColor(Color.MAGENTA);
 		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());
 		
 		int positionEnvahisseurX = spaceInvaders.getEnvahisseur().abscisse();
@@ -34,11 +35,16 @@ public class DessinSpaceinvaders implements DessinJeu {
 		
 		
 		if(spaceInvaders.aUnMissile()) {
-			int positionMissileX = spaceInvaders.getMissile().abscisse();
-			int positionMissileY = spaceInvaders.getMissile().ordonnee() - Constante.MISSILE.hauteur();
+			List<Missile> missiles = spaceInvaders.getMissiles();
+			g.setColor(Color.GREEN);
 			
-			g.setColor(Color.PINK);
-			g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(), Constante.MISSILE.hauteur());
+			for (Missile missile : missiles) {
+				int positionMissileX = missile.abscisse();
+				int positionMissileY = missile.ordonnee() - Constante.MISSILE.hauteur();
+
+				g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(),
+						Constante.MISSILE.hauteur());
+			}
 		}
 	}
 }

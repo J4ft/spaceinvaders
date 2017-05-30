@@ -330,6 +330,29 @@ public class SpaceInvadersTest {
 	}
 	
 	@Test
+	public void test_tirerPlusieursMissiles() {
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7, 2), new Position(5, 9), 2);
+		spaceinvaders.tirerUnMissile(new Dimension(3, 2), 2);
+		
+		spaceinvaders.deplacerMissile();
+		spaceinvaders.deplacerMissile();
+		
+		spaceinvaders.tirerUnMissile(new Dimension(3, 2), 2);
+		
+		assertEquals("" + 
+		"...............\n" + 
+		"...............\n" + 
+		".......MMM.....\n" + 
+		".......MMM.....\n"	+ 
+		"...............\n" + 
+		"...............\n" + 
+		".......MMM.....\n" + 
+		".......MMM.....\n"	+ 
+		".....VVVVVVV...\n" + 
+		".....VVVVVVV...\n", spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	}
+	
+	@Test
 	public void test_unNouveauEnvahisseurEstCorrectementPositionneDansEspaceJeu(){
 		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(1,1), new Position(7, 0), 1);
 		
