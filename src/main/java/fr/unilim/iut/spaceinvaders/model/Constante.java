@@ -8,7 +8,7 @@ public class Constante {
 	
 	public static final Dimension MISSILE = new Dimension(3, 6);
 	public static final int MISSILE_VITESSE = 7;
-	public static final int VITESSE_RECHARGEMENT_MISSILE = 10;
+	public static final int VITESSE_RECHARGEMENT_MISSILE = 20;
 	
 	public static final Dimension ENVAHISSEUR = new Dimension(27, 15);
 	public static final int ENVAHISSEUR_VITESSE = 1;
