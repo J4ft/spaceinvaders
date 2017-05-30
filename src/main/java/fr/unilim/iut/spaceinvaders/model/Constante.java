@@ -17,4 +17,6 @@ public class Constante {
 	public static final char MARQUE_VAISSEAU = 'V';
 	public static final char MARQUE_MISSILE = 'M';
 	public static final char MARQUE_ENVAHISSEUR = 'E';
+	
+	public static final int NOMBRE_ETOILES = 2500;
 }
