@@ -487,4 +487,23 @@ public class SpaceInvadersTest {
 		
 	}
 	
+	@Test
+	public void test_unNouvelleLigneEnvahisseurEstCorrectementPositionneDansEspaceJeu(){
+		spaceinvaders.positionnerUneNouvelleLigneEnvahisseur(new Dimension(1,1), new Position(7, 0), 3, 1);
+		
+		System.out.println(spaceinvaders.recupererEspaceJeuDansChaineASCII());
+		
+		assertEquals("" + 
+		"...E...E...E...\n" + 
+		"...............\n" +
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" + 
+		"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
+	}
+	
 }

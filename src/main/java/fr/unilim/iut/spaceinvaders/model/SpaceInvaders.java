@@ -15,7 +15,7 @@ public class SpaceInvaders implements Jeu {
 	int hauteur;
 	Vaisseau vaisseau;
 	List<Missile> missiles;
-	Envahisseur envahisseur;
+	List<Envahisseur> ligneEnvahisseur;
 	Direction directionEnvahisseur;
 	int timerMissile;
 	int vitesseRechargementMissile;
@@ -28,6 +28,8 @@ public class SpaceInvaders implements Jeu {
 		this.missiles = new ArrayList<Missile>();
 		this.timerMissile = 0;
 		this.vitesseRechargementMissile = 0;
+		
+		this.ligneEnvahisseur = new ArrayList<Envahisseur>();
 		
 	}
 
@@ -81,7 +83,14 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	private boolean aUnEnvahisseurQuiOccupeLaPosition(int x, int y) {
-		return aUnEnvahisseur() && envahisseur.occupeLaPosition(x, y);
+		//return aUnEnvahisseur() && envahisseur.occupeLaPosition(x, y);
+		if (aUnEnvahisseur()) {
+			for(Envahisseur envahisseur : ligneEnvahisseur) {
+				if(envahisseur.occupeLaPosition(x, y))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {		
@@ -98,8 +107,8 @@ public class SpaceInvaders implements Jeu {
 		return aUnVaisseau() && vaisseau.occupeLaPosition(x, y);
 	}
 	
-	private boolean aUnEnvahisseur() {
-		return envahisseur != null;
+	public boolean aUnEnvahisseur() {
+		return ligneEnvahisseur.size() != 0;
 	}
 
 	private boolean aUnVaisseau() {
@@ -159,8 +168,10 @@ public class SpaceInvaders implements Jeu {
 	public boolean collisionMissileEnvahisseur() {
 		if (aUnMissile() && aUnEnvahisseur()) {
 			for (Missile missile : this.missiles) {
-				if (Collision.detecterCollision(envahisseur, missile))
-					return true;
+				for (Envahisseur envahisseur : this.ligneEnvahisseur) {
+					if (Collision.detecterCollision(envahisseur, missile))
+						return true;
+				}
 			}
 		}
 		return false;
@@ -201,7 +212,7 @@ public class SpaceInvaders implements Jeu {
 
 	public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {
 		Envahisseur envahisseur = new Envahisseur();
-		this.envahisseur = (Envahisseur) positionnerUnNouveauSprite(envahisseur, dimension, position, vitesse);
+		this.ligneEnvahisseur.add((Envahisseur) positionnerUnNouveauSprite(envahisseur, dimension, position, vitesse));
 		
 		this.directionEnvahisseur = Direction.DROITE;
 	}
@@ -232,15 +243,30 @@ public class SpaceInvaders implements Jeu {
 		return sprite;
 	}
 
-	public Envahisseur getEnvahisseur() {
-		return this.envahisseur;
+	public List<Envahisseur> getEnvahisseurs() {
+		return this.ligneEnvahisseur;
 	}
 
 	public void deplacerEnvahisseur() {
-		if(this.envahisseur.abscisseLaPlusAGauche() < 1 || this.envahisseur.abscisseLaPlusADroite() > this.longueur - 2)
-			this.directionEnvahisseur = Direction.inverse(this.directionEnvahisseur);
-			
-		this.envahisseur.deplacerHorizontalementVers(this.directionEnvahisseur);
+		for (Envahisseur envahisseur : ligneEnvahisseur) {
+			if (envahisseur.abscisseLaPlusAGauche() < 1
+					|| envahisseur.abscisseLaPlusADroite() > this.longueur - 2)
+				this.directionEnvahisseur = Direction.inverse(this.directionEnvahisseur);
 
+			envahisseur.deplacerHorizontalementVers(this.directionEnvahisseur);
+		}
+
+	}
+
+	public void positionnerUneNouvelleLigneEnvahisseur(Dimension dimension, Position position, int nombreEnvahisseur, int vitesse) {
+		int espacement = (this.longueur - dimension.longueur() * nombreEnvahisseur) / (nombreEnvahisseur + 1);
+		
+		int abscisse = espacement;
+		int ordonnee = position.ordonnee();
+		
+		for(int i = 0; i < nombreEnvahisseur; i++) {
+			this.positionnerUnNouvelEnvahisseur(dimension, new Position(abscisse, ordonnee), vitesse);
+			abscisse += espacement + dimension.longueur();
+		}
 	}
 }
