@@ -24,3 +24,5 @@ Contrôles :
 **Aller vers le haut** : flèche haut du clavier.
 
 **Aller vers le bas** : flèche bas du clavier.
+
+**Tirer missile** : touce espace.
