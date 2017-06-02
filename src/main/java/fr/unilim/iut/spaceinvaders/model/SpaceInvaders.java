@@ -23,6 +23,8 @@ public class SpaceInvaders implements Jeu {
 	int vitesseRechargementMissile;
 	int marge;
 	boolean estFini;
+	int score;
+	int timerFinJeu;
 	
 	
 	public SpaceInvaders(int longueur, int hauteur) {
@@ -38,6 +40,8 @@ public class SpaceInvaders implements Jeu {
 		this.marge = 0;
 		
 		this.estFini = false;
+		this.score = 0;
+		this.timerFinJeu = 0;
 	}
 
 	public void initialiser() {
@@ -47,9 +51,11 @@ public class SpaceInvaders implements Jeu {
 
 		this.marge = Constante.MARGE_BORD_ECRAN;
 
-		positionnerUneNouvelleLigneEnvahisseur(Constante.ENVAHISSEUR, new Position(0, Constante.ENVAHISSEUR.hauteur() + 1), Constante.ENVAHISSEURS_NOMBRE, Constante.ENVAHISSEUR_VITESSE);
+		positionnerUneNouvelleLigneEnvahisseur(Constante.ENVAHISSEUR, new Position(0, Constante.ENVAHISSEUR.hauteur() * 3 + 1), Constante.ENVAHISSEURS_NOMBRE, Constante.ENVAHISSEUR_VITESSE);
 		
 		setVitesseRechargementMissile(Constante.VITESSE_RECHARGEMENT_MISSILE);
+		
+		this.timerFinJeu = Constante.DUREE_APRES_FIN_JEU;
 
 	}
 
@@ -187,6 +193,8 @@ public class SpaceInvaders implements Jeu {
 			this.envahisseurLePlusADroite = trouverEnvahisseurLePlusADroite();
 		
 		envahisseur = null;
+		
+		this.score += Constante.SCORE_DETRUIRE_ENVAHISSEUR;
 	}
 
 	public List<Envahisseur> collisionMissileEnvahisseurs() {
@@ -205,7 +213,15 @@ public class SpaceInvaders implements Jeu {
 	}
 	
 	public boolean etreFini() {
-		return this.estFini;
+		
+		if(this.estFini) {
+			if(this.timerFinJeu == 0)
+				return true;
+			else {
+				this.timerFinJeu--;
+			}
+		}
+		return false;
 	}
 
 	public void tirerUnMissile(Dimension dimension, int vitesse) {
@@ -332,5 +348,9 @@ public class SpaceInvaders implements Jeu {
 		}
 		
 		return envahisseurLePlusADroite;
+	}
+
+	public int score() {
+		return this.score;
 	}
 }

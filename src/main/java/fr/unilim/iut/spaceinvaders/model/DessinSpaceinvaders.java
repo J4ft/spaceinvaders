@@ -16,12 +16,18 @@ public class DessinSpaceinvaders implements DessinJeu {
 	public static final int NOMBRE_ETOILES_ARRIERE_PLAN = 500;
 	public static final int VITESSE_DEPLACEMENT_ETOILES_ARRIERE_PLAN = 1;
 	
+	public static final int DUREE_AFFICHAGE_GAIN_SCORE = 30;
+	
 	SpaceInvaders spaceInvaders;
 	int missileValeur;
 	int etoileLuminosité;
 
 	final Position[] etoilesPremierPlan;
 	final Position[] etoilesArrierePlan;
+	
+	int score;
+	int gainScore;
+	int timerAffichageGainScore;
 
 	public DessinSpaceinvaders(SpaceInvaders spaceInvaders) {
 		this.spaceInvaders = spaceInvaders;
@@ -59,6 +65,24 @@ public class DessinSpaceinvaders implements DessinJeu {
 		dessinerEnvahisseurs(g);
 
 		dessinerMissiles(g);
+		
+		if(this.score != spaceInvaders.score()) {
+			this.gainScore = spaceInvaders.score() - this.score;
+			this.score = spaceInvaders.score;
+			this.timerAffichageGainScore = DUREE_AFFICHAGE_GAIN_SCORE;
+		}
+			
+			
+		g.setColor(Color.WHITE);
+		g.drawString("Score : " + this.score, 5, 15);
+		
+		if(this.timerAffichageGainScore > 0) {
+			if(this.timerAffichageGainScore % 8 <= 3) {
+				g.drawString("+ " + this.gainScore, Constante.ECRAN.longueur() - 50, 15);
+			}
+			
+			this.timerAffichageGainScore--;
+		}
 	}
 
 	private void dessinerMissiles(Graphics2D g) {

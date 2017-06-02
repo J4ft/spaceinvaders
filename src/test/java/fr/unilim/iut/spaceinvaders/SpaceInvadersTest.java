@@ -545,4 +545,23 @@ public class SpaceInvadersTest {
 		"...............\n" , spaceinvaders.recupererEspaceJeuDansChaineASCII());
 	}
 	
+	@Test
+	public void test_scoreVaut0AuDebutDeLaPartie() {
+		assertEquals(0, spaceinvaders.score());
+	}
+	
+	@Test
+	public void test_scoreVaut100ApresUnEnvahisseurDetruit() {
+		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(3, 2), new Position(7, 9), 1);
+		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(2, 1), 1);
+		spaceinvaders.tirerUnMissile(new Dimension(1, 1), 1);
+		
+		// simulation boucle de jeu
+		for(int i = 0; i < 6; i++) {
+			spaceinvaders.evoluer(new Commande());
+		}
+		
+		assertEquals(100, spaceinvaders.score());
+	}
+	
 }
