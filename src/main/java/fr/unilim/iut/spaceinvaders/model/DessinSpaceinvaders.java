@@ -1,7 +1,9 @@
 package fr.unilim.iut.spaceinvaders.model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
@@ -12,22 +14,31 @@ public class DessinSpaceinvaders implements DessinJeu {
 
 	public static final int NOMBRE_ETOILES_PREMIER_PLAN = 1000;
 	public static final int VITESSE_DEPLACEMENT_ETOILES_PREMIER_PLAN = 3;
-	
+
 	public static final int NOMBRE_ETOILES_ARRIERE_PLAN = 500;
 	public static final int VITESSE_DEPLACEMENT_ETOILES_ARRIERE_PLAN = 1;
-	
+
 	public static final int DUREE_AFFICHAGE_GAIN_SCORE = 30;
 	
+	public static final int TAILLE_POLICE_SCORE = 15;
+	public static final int TAILLE_POLICE_GAME_OVER = 50;
+	public static final String NOM_POLICE = "Arial";
+	
+	public static final int ABSCISSE_AFFICHAGE_GAME_OVER = 95;
+
 	SpaceInvaders spaceInvaders;
 	int missileValeur;
 	int etoileLuminosité;
 
 	final Position[] etoilesPremierPlan;
 	final Position[] etoilesArrierePlan;
-	
+
 	int score;
 	int gainScore;
 	int timerAffichageGainScore;
+	
+	Font policeScore;
+	Font policeGameOver;
 
 	public DessinSpaceinvaders(SpaceInvaders spaceInvaders) {
 		this.spaceInvaders = spaceInvaders;
@@ -45,12 +56,15 @@ public class DessinSpaceinvaders implements DessinJeu {
 			etoilesPremierPlan[i] = new Position(rand.nextInt() % Constante.ECRAN.longueur(),
 					rand.nextInt() % Constante.ECRAN.hauteur());
 		}
-		
+
 		// Arrière plan
 		for (int i = 0; i < etoilesArrierePlan.length; i++) {
 			etoilesArrierePlan[i] = new Position(rand.nextInt() % Constante.ECRAN.longueur(),
 					rand.nextInt() % Constante.ECRAN.hauteur());
 		}
+		
+		this.policeScore = new Font(NOM_POLICE, Font.PLAIN, TAILLE_POLICE_SCORE);
+		this.policeGameOver = new Font(NOM_POLICE, Font.BOLD, TAILLE_POLICE_GAME_OVER);
 	}
 
 	public void dessiner(BufferedImage image) {
@@ -65,22 +79,41 @@ public class DessinSpaceinvaders implements DessinJeu {
 		dessinerEnvahisseurs(g);
 
 		dessinerMissiles(g);
-		
-		if(this.score != spaceInvaders.score()) {
+
+		dessinerScore(g);
+
+		dessinerGameOver(g);
+	}
+
+	private void dessinerGameOver(Graphics2D g) {
+		if (spaceInvaders.estFini) {
+			g.setColor(Color.WHITE);
+			g.setFont(this.policeGameOver);
+			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			g.drawString("Game Over", ABSCISSE_AFFICHAGE_GAME_OVER, Constante.ECRAN.hauteur() / 2);
+			
+			g.setFont(this.policeScore);
+			g.drawString("Score final: " + this.score, ABSCISSE_AFFICHAGE_GAME_OVER, Constante.ECRAN.hauteur() / 2 + 20);
+		}
+	}
+
+	private void dessinerScore(Graphics2D g) {
+		if (this.score != spaceInvaders.score()) {
 			this.gainScore = spaceInvaders.score() - this.score;
 			this.score = spaceInvaders.score;
 			this.timerAffichageGainScore = DUREE_AFFICHAGE_GAIN_SCORE;
 		}
-			
-			
+
 		g.setColor(Color.WHITE);
+		g.setFont(this.policeScore);
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.drawString("Score : " + this.score, 5, 15);
-		
-		if(this.timerAffichageGainScore > 0) {
-			if(this.timerAffichageGainScore % 8 <= 3) {
+
+		if (this.timerAffichageGainScore > 0) {
+			if (this.timerAffichageGainScore % 8 <= 3) {
 				g.drawString("+ " + this.gainScore, Constante.ECRAN.longueur() - 50, 15);
 			}
-			
+
 			this.timerAffichageGainScore--;
 		}
 	}
@@ -96,7 +129,7 @@ public class DessinSpaceinvaders implements DessinJeu {
 				dessinerMissile(g, missile);
 			}
 		}
-		
+
 		if (spaceInvaders.aUnMissileEnvahisseur()) {
 			List<Missile> missiles = spaceInvaders.getMissilesEnvahisseur();
 
@@ -104,24 +137,22 @@ public class DessinSpaceinvaders implements DessinJeu {
 				dessinerMissile(g, missile);
 			}
 		}
-		
-		
+
 	}
 
 	private void dessinerMissile(Graphics2D g, Missile missile) {
 		int positionMissileX = missile.abscisse();
 		int positionMissileY = missile.ordonnee() - Constante.MISSILE.hauteur();
 
-		g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(),
-				Constante.MISSILE.hauteur());
+		g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(), Constante.MISSILE.hauteur());
 	}
 
 	private void dessinerEnvahisseurs(Graphics2D g) {
-		if (spaceInvaders.aUnEnvahisseur    ()) {
+		if (spaceInvaders.aUnEnvahisseur()) {
 			List<Envahisseur> envahisseurs = spaceInvaders.getEnvahisseurs();
-			
+
 			g.setColor(Color.RED);
-			
+
 			for (Envahisseur envahisseur : envahisseurs) {
 				int positionEnvahisseurX = envahisseur.abscisse();
 				int positionEnvahisseurY = envahisseur.ordonnee() - Constante.ENVAHISSEUR.hauteur();
@@ -129,27 +160,30 @@ public class DessinSpaceinvaders implements DessinJeu {
 				g.fillRect(positionEnvahisseurX, positionEnvahisseurY, Constante.ENVAHISSEUR.longueur(),
 						Constante.ENVAHISSEUR.hauteur());
 			}
-			
+
 		}
 	}
 
 	private void dessinerVaisseau(Graphics2D g) {
-		int positionVaisseauX = spaceInvaders.getVaisseau().abscisse();
-		int positionVaisseauY = spaceInvaders.getVaisseau().ordonnee() - Constante.VAISSEAU.hauteur();
+		if (spaceInvaders.aUnVaisseau()) {
+			int positionVaisseauX = spaceInvaders.getVaisseau().abscisse();
+			int positionVaisseauY = spaceInvaders.getVaisseau().ordonnee() - Constante.VAISSEAU.hauteur();
 
-		g.setColor(Color.MAGENTA);
-		g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(), Constante.VAISSEAU.hauteur());
+			g.setColor(Color.MAGENTA);
+			g.fillRect(positionVaisseauX, positionVaisseauY, Constante.VAISSEAU.longueur(),
+					Constante.VAISSEAU.hauteur());
+		}
 	}
 
 	private void dessinerEtoiles(Graphics2D g) {
 		deplacerEtoiles();
-		
+
 		for (int i = 0; i < etoilesArrierePlan.length; i++) {
 			this.etoileLuminosité = ((this.etoileLuminosité + 1) % 192) + 64;
 			g.setColor(new Color(Color.HSBtoRGB(0.0f, 0.0f, (float) this.etoileLuminosité / 256.0f)));
 			g.fillRect(etoilesArrierePlan[i].abscisse(), etoilesArrierePlan[i].ordonnee(), 1, 1);
 		}
-		
+
 		for (int i = 0; i < etoilesPremierPlan.length; i++) {
 			this.etoileLuminosité = ((this.etoileLuminosité + 1) % 192) + 64;
 			g.setColor(new Color(Color.HSBtoRGB(0.0f, 0.0f, (float) this.etoileLuminosité / 256.0f)));
@@ -161,14 +195,16 @@ public class DessinSpaceinvaders implements DessinJeu {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Constante.ECRAN.longueur(), Constante.ECRAN.hauteur());
 	}
-	
+
 	private void deplacerEtoiles() {
-		for(Position etoile : etoilesPremierPlan) {
-			etoile.changerOrdonnee((etoile.ordonnee() + VITESSE_DEPLACEMENT_ETOILES_PREMIER_PLAN) % Constante.ECRAN.hauteur());
+		for (Position etoile : etoilesPremierPlan) {
+			etoile.changerOrdonnee(
+					(etoile.ordonnee() + VITESSE_DEPLACEMENT_ETOILES_PREMIER_PLAN) % Constante.ECRAN.hauteur());
 		}
-		
-		for(Position etoile : etoilesArrierePlan) {
-			etoile.changerOrdonnee((etoile.ordonnee() + VITESSE_DEPLACEMENT_ETOILES_ARRIERE_PLAN) % Constante.ECRAN.hauteur());
+
+		for (Position etoile : etoilesArrierePlan) {
+			etoile.changerOrdonnee(
+					(etoile.ordonnee() + VITESSE_DEPLACEMENT_ETOILES_ARRIERE_PLAN) % Constante.ECRAN.hauteur());
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class Constante {
 	
 	public static final int SCORE_DETRUIRE_ENVAHISSEUR = 100;
 	
-	public static final int DUREE_APRES_FIN_JEU = 30;
+	public static final int DUREE_APRES_FIN_JEU = 100;
 
 	public static final char MARQUE_VIDE = '.';
 	public static final char MARQUE_VAISSEAU = 'V';

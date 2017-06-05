@@ -153,7 +153,7 @@ public class SpaceInvaders implements Jeu {
 		return ligneEnvahisseurs.size() != 0;
 	}
 
-	private boolean aUnVaisseau() {
+	public boolean aUnVaisseau() {
 		return vaisseau != null;
 	}
 
@@ -187,10 +187,10 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void evoluer(Commande commandeUser) {
-		if (commandeUser.gauche)
+		if (commandeUser.gauche && aUnVaisseau())
 			deplacerVaisseauVersLaGauche();
 
-		if (commandeUser.droite)
+		if (commandeUser.droite && aUnVaisseau())
 			deplacerVaisseauVersLaDroite();
 
 		if (commandeUser.espace && peutTirerMissileVaisseau())
@@ -216,6 +216,11 @@ public class SpaceInvaders implements Jeu {
 
 		for (Envahisseur envahisseur : collisionMissileEnvahisseurs()) {
 			detruireEnvahisseur(envahisseur);
+		}
+		
+		if (collisionMissileVaisseau()) {
+			this.estFini = true;
+			this.vaisseau = null;
 		}
 
 		if (!aUnEnvahisseur())
@@ -249,6 +254,16 @@ public class SpaceInvaders implements Jeu {
 			}
 		}
 		return envahisseursTouche;
+	}
+	
+	public boolean collisionMissileVaisseau() {
+		if(aUnVaisseau() && aUnMissileEnvahisseur()) {
+			for(Missile missile : this.missilesEnvahisseur) {
+				if(Collision.detecterCollision(vaisseau, missile))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean etreFini() {
@@ -293,7 +308,7 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public boolean peutTirerMissileVaisseau() {
-		return this.timerMissileVaisseau == 0;
+		return this.timerMissileVaisseau == 0 && aUnVaisseau();
 	}
 	
 	private boolean peutTirerMissileEnvahisseur() {
