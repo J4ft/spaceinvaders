@@ -29,7 +29,7 @@ public class SpaceInvaders implements Jeu {
 
 	List<Missile> missilesVaisseau;
 	int timerMissileVaisseau;
-	int vitesseRechargementMissile;
+	int vitesseRechargementMissileVaisseau;
 
 	List<Missile> missilesEnvahisseur;
 	int timerMissileEnvahisseur;
@@ -41,7 +41,7 @@ public class SpaceInvaders implements Jeu {
 
 		this.missilesVaisseau = new ArrayList<Missile>();
 		this.timerMissileVaisseau = 0;
-		this.vitesseRechargementMissile = 0;
+		this.vitesseRechargementMissileVaisseau = 0;
 
 		this.missilesEnvahisseur = new ArrayList<Missile>();
 		this.timerMissileEnvahisseur = 0;
@@ -67,18 +67,27 @@ public class SpaceInvaders implements Jeu {
 				new Position(0, Constante.ENVAHISSEUR.hauteur() * 3 + 1), Constante.ENVAHISSEURS_NOMBRE,
 				Constante.ENVAHISSEUR_VITESSE);
 
-		setVitesseRechargementMissile(Constante.VITESSE_RECHARGEMENT_MISSILE);
+		setVitesseRechargementMissileVaisseau(Constante.VITESSE_RECHARGEMENT_MISSILE_VAISSEAU);
+		setVitesseRechargementMissileEnvahisseur(Constante.VITESSE_RECHARGEMENT_MISSILE_ENVAHISSEUR);
 
 		this.timerFinJeu = Constante.DUREE_APRES_FIN_JEU;
-
 	}
 
-	public void setVitesseRechargementMissile(int vitesseRechargementMissile) {
+	public void setVitesseRechargementMissileVaisseau(int vitesseRechargementMissile) {
 		if (vitesseRechargementMissile < 0) {
 			throw new IllegalArgumentException("La vitesse de rechargement des missiles doit être positive");
 		}
 
-		this.vitesseRechargementMissile = vitesseRechargementMissile;
+		this.vitesseRechargementMissileVaisseau = vitesseRechargementMissile;
+	}
+	
+	public void setVitesseRechargementMissileEnvahisseur(int vitesseRechargementMissile) {
+		if (vitesseRechargementMissile < 0) {
+			throw new IllegalArgumentException("La vitesse de rechargement des missiles doit être positive");
+		}
+
+		this.vitesseRechargementMissileEnvahisseur = vitesseRechargementMissile;
+		this.timerMissileEnvahisseur = vitesseRechargementMissile;
 	}
 
 	public String recupererEspaceJeuDansChaineASCII() {
@@ -132,7 +141,7 @@ public class SpaceInvaders implements Jeu {
 		return false;
 	}
 
-	private boolean aUnMissileEnvahisseur() {
+	public boolean aUnMissileEnvahisseur() {
 		return this.missilesEnvahisseur.size() != 0;
 	}
 
@@ -187,8 +196,20 @@ public class SpaceInvaders implements Jeu {
 		if (commandeUser.espace && peutTirerMissileVaisseau())
 			vaisseauTireUnMissile(Constante.MISSILE, Constante.MISSILE_VITESSE_VAISSEAU);
 
+		if (peutTirerMissileEnvahisseur())
+			envahisseurTireUnMissile(Constante.MISSILE, Constante.MISSILE_VITESSE_ENVAHISSEUR);
+		
 		if (aUnMissileVaisseau())
-			deplacerMissile();
+			deplacerMissileVaisseau();
+		
+		if (this.timerMissileVaisseau > 0)
+			this.timerMissileVaisseau--;
+
+		if (aUnMissileEnvahisseur())
+			deplacerMissileEnvahisseur();
+
+		if (this.timerMissileEnvahisseur > 0)
+			this.timerMissileEnvahisseur--;
 
 		if (aUnEnvahisseur())
 			deplacerEnvahisseurs();
@@ -199,7 +220,6 @@ public class SpaceInvaders implements Jeu {
 
 		if (!aUnEnvahisseur())
 			this.estFini = true;
-
 	}
 
 	private void detruireEnvahisseur(Envahisseur envahisseur) {
@@ -258,7 +278,7 @@ public class SpaceInvaders implements Jeu {
 			throw new MissileException("Le temps de rechargement du missile n'est pas encore écoulé.");
 
 		this.missilesVaisseau.add(tirerMissile(this.vaisseau, dimension, vitesse));
-		this.timerMissileVaisseau = this.vitesseRechargementMissile;
+		this.timerMissileVaisseau = this.vitesseRechargementMissileVaisseau;
 	}
 	
 	public void envahisseurTireUnMissile(Dimension dimension, int vitesse) {
@@ -277,14 +297,18 @@ public class SpaceInvaders implements Jeu {
 	}
 	
 	private boolean peutTirerMissileEnvahisseur() {
-		return this.timerMissileEnvahisseur == 0;
+		return this.timerMissileEnvahisseur == 0 && aUnEnvahisseur();
 	}
 
-	public List<Missile> getMissiles() {
+	public List<Missile> getMissilesVaisseau() {
 		return this.missilesVaisseau;
 	}
+	
+	public List<Missile> getMissilesEnvahisseur() {
+		return this.missilesEnvahisseur;
+	}
 
-	public void deplacerMissile() {
+	public void deplacerMissileVaisseau() {
 		if (aUnMissileVaisseau()) {
 			for (int i = 0; i < this.missilesVaisseau.size(); i++) {
 				this.missilesVaisseau.get(i).deplacerVerticalementVers(Direction.HAUT_ECRAN);
@@ -292,7 +316,9 @@ public class SpaceInvaders implements Jeu {
 					this.missilesVaisseau.remove(i);
 			}
 		}
-		
+	}
+	
+	public void deplacerMissileEnvahisseur() {
 		if (aUnMissileEnvahisseur()) {
 			for (int i = 0; i < this.missilesEnvahisseur.size(); i++) {
 				this.missilesEnvahisseur.get(i).deplacerVerticalementVers(Direction.BAS_ECRAN);
@@ -300,12 +326,7 @@ public class SpaceInvaders implements Jeu {
 					this.missilesEnvahisseur.remove(i);
 			}
 		}
-
-		if (this.timerMissileVaisseau > 0)
-			this.timerMissileVaisseau--;
 		
-		if (this.timerMissileEnvahisseur > 0)
-			this.timerMissileEnvahisseur--;
 	}
 
 	public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {

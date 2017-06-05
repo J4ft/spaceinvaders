@@ -86,20 +86,34 @@ public class DessinSpaceinvaders implements DessinJeu {
 	}
 
 	private void dessinerMissiles(Graphics2D g) {
-		if (spaceInvaders.aUnMissileVaisseau()) {
-			List<Missile> missiles = spaceInvaders.getMissiles();
+		this.missileValeur = (this.missileValeur + 2) % 256;
+		g.setColor(new Color(Color.HSBtoRGB((float) this.missileValeur / 256.0f, 0.5f, 1.0f)));
 
-			this.missileValeur = (this.missileValeur + 2) % 256;
-			g.setColor(new Color(Color.HSBtoRGB((float) this.missileValeur / 256.0f, 0.5f, 1.0f)));
+		if (spaceInvaders.aUnMissileVaisseau()) {
+			List<Missile> missiles = spaceInvaders.getMissilesVaisseau();
 
 			for (Missile missile : missiles) {
-				int positionMissileX = missile.abscisse();
-				int positionMissileY = missile.ordonnee() - Constante.MISSILE.hauteur();
-
-				g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(),
-						Constante.MISSILE.hauteur());
+				dessinerMissile(g, missile);
 			}
 		}
+		
+		if (spaceInvaders.aUnMissileEnvahisseur()) {
+			List<Missile> missiles = spaceInvaders.getMissilesEnvahisseur();
+
+			for (Missile missile : missiles) {
+				dessinerMissile(g, missile);
+			}
+		}
+		
+		
+	}
+
+	private void dessinerMissile(Graphics2D g, Missile missile) {
+		int positionMissileX = missile.abscisse();
+		int positionMissileY = missile.ordonnee() - Constante.MISSILE.hauteur();
+
+		g.fillRect(positionMissileX, positionMissileY, Constante.MISSILE.longueur(),
+				Constante.MISSILE.hauteur());
 	}
 
 	private void dessinerEnvahisseurs(Graphics2D g) {

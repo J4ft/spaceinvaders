@@ -286,7 +286,7 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7, 2), new Position(5, 9), 2);
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(3, 2), 2);
 		
-		spaceinvaders.deplacerMissile();
+		spaceinvaders.deplacerMissileVaisseau();
 		
 		assertEquals("" + 
 		"...............\n" + 
@@ -307,9 +307,10 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7, 2), new Position(5, 9), 1);
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(3, 2), 1);
 		
-		for(int i = 0; i < 6; i++) spaceinvaders.deplacerMissile();
+		for(int i = 0; i < 6; i++) spaceinvaders.deplacerMissileVaisseau();
 
-		spaceinvaders.deplacerMissile();
+		// Pour emepcher la lancée de missile envahisseur
+		spaceinvaders.deplacerMissileVaisseau();
 		
 		assertEquals("" + 
 		"...............\n" + 
@@ -335,8 +336,8 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouveauVaisseau(new Dimension(7, 2), new Position(5, 9), 2);
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(3, 2), 2);
 		
-		spaceinvaders.deplacerMissile();
-		spaceinvaders.deplacerMissile();
+		spaceinvaders.deplacerMissileVaisseau();
+		spaceinvaders.deplacerMissileVaisseau();
 		
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(3, 2), 2);
 		
@@ -462,6 +463,9 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(2, 1), 1);
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(1, 1), 1);
 		
+		// Pour emepcher la lancée de missile envahisseur
+		spaceinvaders.setVitesseRechargementMissileEnvahisseur(100000);
+		
 		// simulation boucle de jeu
 		for(int i = 0; i < 6; i++) {
 			spaceinvaders.evoluer(new Commande());
@@ -480,7 +484,7 @@ public class SpaceInvadersTest {
 		// simulation boucle de jeu
 		for(int i = 0; i < 6; i++) {
 			spaceinvaders.deplacerEnvahisseurs();
-			spaceinvaders.deplacerMissile();
+			spaceinvaders.deplacerMissileVaisseau();
 		}
 		
 		assertEquals(false, spaceinvaders.etreFini());
@@ -556,6 +560,8 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(3,2), new Position(2, 1), 1);
 		spaceinvaders.vaisseauTireUnMissile(new Dimension(1, 1), 1);
 		
+		spaceinvaders.setVitesseRechargementMissileEnvahisseur(100000);
+		
 		// simulation boucle de jeu
 		for(int i = 0; i < 6; i++) {
 			spaceinvaders.evoluer(new Commande());
@@ -587,7 +593,7 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(1,1), new Position(7, 0), 1);
 		spaceinvaders.envahisseurTireUnMissile(new Dimension(1, 1), 1);
 		
-		spaceinvaders.deplacerMissile();
+		spaceinvaders.deplacerMissileEnvahisseur();
 		
 		assertEquals("" + 
 		".......E.......\n" + 
@@ -607,9 +613,9 @@ public class SpaceInvadersTest {
 		spaceinvaders.positionnerUnNouvelEnvahisseur(new Dimension(1,1), new Position(7, 0), 1);
 		spaceinvaders.envahisseurTireUnMissile(new Dimension(1, 1), 1);
 		
-		for(int i = 0; i < 9; i++) spaceinvaders.deplacerMissile();
+		for(int i = 0; i < 9; i++) spaceinvaders.deplacerMissileEnvahisseur();
 
-		spaceinvaders.deplacerMissile();
+		spaceinvaders.deplacerMissileEnvahisseur();
 		
 		assertEquals("" + 
 		".......E.......\n" + 
