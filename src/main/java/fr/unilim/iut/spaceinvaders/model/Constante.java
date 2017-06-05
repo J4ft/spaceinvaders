@@ -14,7 +14,9 @@ public class Constante {
 	
 	public static final Dimension ENVAHISSEUR = new Dimension(27, 15);
 	public static final int ENVAHISSEUR_VITESSE = 1;
-	public static final int ENVAHISSEURS_NOMBRE = 8;
+	public static final int ENVAHISSEURS_NOMBRE_PAR_LIGNE = 8;
+	public static final int ENVAHISSEURS_NOMBRE_LIGNES = 4;
+	public static final int ESPACE_ENTRE_LIGNE = 10;
 	
 	public static final int MARGE_BORD_ECRAN = 20;
 	

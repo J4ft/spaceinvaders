@@ -63,9 +63,12 @@ public class SpaceInvaders implements Jeu {
 
 		this.marge = Constante.MARGE_BORD_ECRAN;
 
-		positionnerUneNouvelleLigneEnvahisseur(Constante.ENVAHISSEUR,
-				new Position(0, Constante.ENVAHISSEUR.hauteur() * 3 + 1), Constante.ENVAHISSEURS_NOMBRE,
-				Constante.ENVAHISSEUR_VITESSE);
+		positionnerUneHordeDEnvahisseur(Constante.ENVAHISSEUR,
+				Constante.ENVAHISSEUR.hauteur() * 3 + 1, 
+				Constante.ENVAHISSEUR_VITESSE, 
+				Constante.ENVAHISSEURS_NOMBRE_PAR_LIGNE, 
+				Constante.ENVAHISSEURS_NOMBRE_LIGNES, 
+				Constante.ESPACE_ENTRE_LIGNE);
 
 		setVitesseRechargementMissileVaisseau(Constante.VITESSE_RECHARGEMENT_MISSILE_VAISSEAU);
 		setVitesseRechargementMissileEnvahisseur(Constante.VITESSE_RECHARGEMENT_MISSILE_ENVAHISSEUR);
@@ -243,16 +246,25 @@ public class SpaceInvaders implements Jeu {
 
 	public List<Envahisseur> collisionMissileEnvahisseurs() {
 		List<Envahisseur> envahisseursTouche = new ArrayList<Envahisseur>();
+		List<Missile> missileTouche = new ArrayList<Missile>();
 
 		if (aUnMissileVaisseau() && aUnEnvahisseur()) {
 
 			for (Missile missile : this.missilesVaisseau) {
 				for (Envahisseur envahisseur : this.ligneEnvahisseurs) {
-					if (Collision.detecterCollision(envahisseur, missile))
+					if (Collision.detecterCollision(envahisseur, missile)) {
 						envahisseursTouche.add(envahisseur);
+						missileTouche.add(missile);
+						break;
+					}
 				}
 			}
 		}
+		
+		for (Missile missile : missileTouche) {
+			this.missilesVaisseau.remove(missile);
+		}
+		
 		return envahisseursTouche;
 	}
 	
@@ -397,7 +409,7 @@ public class SpaceInvaders implements Jeu {
 		}
 	}
 
-	public void positionnerUneNouvelleLigneEnvahisseur(Dimension dimension, Position position, int nombreEnvahisseur,
+	public void positionnerUneNouvelleLigneEnvahisseur(Dimension dimension, int ordonneeLigne, int nombreEnvahisseur,
 			int vitesse) {
 		int espacement = (this.longueur - dimension.longueur() * nombreEnvahisseur - 2 * this.marge)
 				/ (nombreEnvahisseur + 1);
@@ -406,10 +418,9 @@ public class SpaceInvaders implements Jeu {
 			throw new IllegalArgumentException();
 
 		int abscisse = espacement;
-		int ordonnee = position.ordonnee();
 
 		for (int i = 0; i < nombreEnvahisseur; i++) {
-			this.positionnerUnNouvelEnvahisseur(dimension, new Position(abscisse, ordonnee), vitesse);
+			this.positionnerUnNouvelEnvahisseur(dimension, new Position(abscisse, ordonneeLigne), vitesse);
 			abscisse += espacement + dimension.longueur();
 		}
 	}
@@ -444,5 +455,16 @@ public class SpaceInvaders implements Jeu {
 
 	public int score() {
 		return this.score;
+	}
+
+	public void positionnerUneHordeDEnvahisseur(Dimension dimension, int ordonneeLigne, int vitesse, int nombreEnvahisseursParLigne, int nombreLignes, int espaceEntreLigne) {
+		
+
+		for (int i = 0; i < nombreLignes; i++) {
+			positionnerUneNouvelleLigneEnvahisseur(dimension, ordonneeLigne,
+					nombreEnvahisseursParLigne, vitesse);
+			
+			ordonneeLigne += dimension.hauteur() + espaceEntreLigne;
+		}
 	}
 }
