@@ -117,7 +117,7 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	private boolean aUnMissileQuiOccupeLaPosition(int x, int y) {
-		if (aUnMissile()) {
+		if (aUnMissileVaisseau()) {
 			for (Missile missile : this.missilesVaisseau) {
 				if (missile.occupeLaPosition(x, y))
 					return true;
@@ -148,7 +148,7 @@ public class SpaceInvaders implements Jeu {
 		return vaisseau != null;
 	}
 
-	public boolean aUnMissile() {
+	public boolean aUnMissileVaisseau() {
 		return this.missilesVaisseau.size() != 0;
 	}
 
@@ -187,7 +187,7 @@ public class SpaceInvaders implements Jeu {
 		if (commandeUser.espace && peutTirerMissileVaisseau())
 			vaisseauTireUnMissile(Constante.MISSILE, Constante.MISSILE_VITESSE_VAISSEAU);
 
-		if (aUnMissile())
+		if (aUnMissileVaisseau())
 			deplacerMissile();
 
 		if (aUnEnvahisseur())
@@ -219,7 +219,7 @@ public class SpaceInvaders implements Jeu {
 	public List<Envahisseur> collisionMissileEnvahisseurs() {
 		List<Envahisseur> envahisseursTouche = new ArrayList<Envahisseur>();
 
-		if (aUnMissile() && aUnEnvahisseur()) {
+		if (aUnMissileVaisseau() && aUnEnvahisseur()) {
 
 			for (Missile missile : this.missilesVaisseau) {
 				for (Envahisseur envahisseur : this.ligneEnvahisseurs) {
@@ -285,16 +285,27 @@ public class SpaceInvaders implements Jeu {
 	}
 
 	public void deplacerMissile() {
-		if (aUnMissile()) {
+		if (aUnMissileVaisseau()) {
 			for (int i = 0; i < this.missilesVaisseau.size(); i++) {
 				this.missilesVaisseau.get(i).deplacerVerticalementVers(Direction.HAUT_ECRAN);
 				if (this.missilesVaisseau.get(i).ordonneeLaPlusHaute() < 0)
 					this.missilesVaisseau.remove(i);
 			}
 		}
+		
+		if (aUnMissileEnvahisseur()) {
+			for (int i = 0; i < this.missilesEnvahisseur.size(); i++) {
+				this.missilesEnvahisseur.get(i).deplacerVerticalementVers(Direction.BAS_ECRAN);
+				if (this.missilesEnvahisseur.get(i).ordonneeLaPlusBasse() > this.hauteur)
+					this.missilesEnvahisseur.remove(i);
+			}
+		}
 
 		if (this.timerMissileVaisseau > 0)
 			this.timerMissileVaisseau--;
+		
+		if (this.timerMissileEnvahisseur > 0)
+			this.timerMissileEnvahisseur--;
 	}
 
 	public void positionnerUnNouvelEnvahisseur(Dimension dimension, Position position, int vitesse) {

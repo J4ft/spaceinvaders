@@ -86,7 +86,7 @@ public class DessinSpaceinvaders implements DessinJeu {
 	}
 
 	private void dessinerMissiles(Graphics2D g) {
-		if (spaceInvaders.aUnMissile()) {
+		if (spaceInvaders.aUnMissileVaisseau()) {
 			List<Missile> missiles = spaceInvaders.getMissiles();
 
 			this.missileValeur = (this.missileValeur + 2) % 256;
