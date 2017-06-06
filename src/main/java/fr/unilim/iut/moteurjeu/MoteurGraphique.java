@@ -57,6 +57,8 @@ public class MoteurGraphique {
 			// met en attente
 			Thread.sleep(20);
 		}
+		
+		gui.fermerFenetre();
 	}
 
 }

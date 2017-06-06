@@ -10,6 +10,8 @@ import javax.swing.JFrame;
  */
 public class InterfaceGraphique  {
 
+	
+	private JFrame f;
 	/**
 	 * le Panel lie a la JFrame
 	 */
@@ -31,12 +33,12 @@ public class InterfaceGraphique  {
 	public InterfaceGraphique(DessinJeu afficheurUtil,int x,int y)
 	{
 		//creation JFrame
-		JFrame f=new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.f =new JFrame();
+		this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// creation panel
 		this.panel=new PanelDessin(x, y,afficheurUtil);
-		f.setContentPane(this.panel);
+		this.f.setContentPane(this.panel);
 		
 		//ajout du controleur
 		Controleur controlleurGraph=new Controleur();
@@ -44,10 +46,10 @@ public class InterfaceGraphique  {
 		this.panel.addKeyListener(controlleurGraph);	
 		
 		//recuperation du focus
-		f.pack();
-		f.setVisible(true);
-		f.getContentPane().setFocusable(true);
-		f.getContentPane().requestFocus();
+		this.f.pack();
+		this.f.setVisible(true);
+		this.f.getContentPane().setFocusable(true);
+		this.f.getContentPane().requestFocus();
 	}
 	
 	
@@ -64,6 +66,11 @@ public class InterfaceGraphique  {
 	 */
 	public void dessiner() {
 		this.panel.dessinerJeu();	
+	}
+	
+	public void fermerFenetre() {
+		this.f.setVisible(false);
+		this.f.dispose();
 	}
 	
 }
